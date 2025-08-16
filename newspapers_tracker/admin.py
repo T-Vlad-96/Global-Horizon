@@ -36,4 +36,13 @@ class RedactorAdmin(UserAdmin):
 
 @admin.register(Newspaper)
 class NewspaperAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        "id", "title", "content", "topic", "published_date", "get_publishers"
+    )
+
+    def get_publishers(self, obj):
+        publishers = ", ".join([redactor.username for redactor in obj.publishers.all()])
+        return publishers
+    get_publishers.short_description = "Redactors"
+
+
