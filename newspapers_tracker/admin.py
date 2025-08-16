@@ -13,7 +13,7 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Redactor)
 class RedactorAdmin(UserAdmin):
-    pass
+    list_display = UserAdmin.list_display + ("years_of_experience", )
 
 
 @admin.register(Newspaper)
