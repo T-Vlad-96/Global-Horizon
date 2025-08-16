@@ -13,9 +13,25 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Redactor)
 class RedactorAdmin(UserAdmin):
-    list_display = UserAdmin.list_display + ("years_of_experience", )
-    list_filter = ("is_staff", )
+    list_display = UserAdmin.list_display + ("years_of_experience",)
+    list_filter = ("is_staff",)
     search_fields = ("username", "first_name", "last_name")
+    fieldsets = UserAdmin.fieldsets + (
+        ("Experience", {"fields": ("years_of_experience",)}),
+    )
+    add_fieldsets = (
+        None,
+        {
+            "fields": (
+                "username",
+                "password1",
+                "password2",
+                "first_name",
+                "last_name",
+                "years_of_experience"
+            ),
+        },
+    ),
 
 
 @admin.register(Newspaper)
