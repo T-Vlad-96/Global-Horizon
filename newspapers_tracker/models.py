@@ -14,7 +14,9 @@ class Redactor(AbstractUser):
     years_of_experience = models.PositiveIntegerField(
         validators=[
             MaxValueValidator(70),
-        ]
+        ],
+        blank=True,
+        null=True,
     )
 
     def __str__(self):
