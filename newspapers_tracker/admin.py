@@ -6,7 +6,9 @@ from .models import Redactor, Topic, Newspaper
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("id", "name")
+    search_fields = ("name",)
+    ordering = ("name",)
 
 
 @admin.register(Redactor)
