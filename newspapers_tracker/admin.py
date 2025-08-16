@@ -14,6 +14,8 @@ class TopicAdmin(admin.ModelAdmin):
 @admin.register(Redactor)
 class RedactorAdmin(UserAdmin):
     list_display = UserAdmin.list_display + ("years_of_experience", )
+    list_filter = ("is_staff", )
+    search_fields = ("username", "first_name", "last_name")
 
 
 @admin.register(Newspaper)
