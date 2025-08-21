@@ -55,7 +55,7 @@ ROOT_URLCONF = 'global_horizon.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/"templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,6 +63,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'newspapers_tracker.context_processors.cfg_assets_root'
             ],
         },
     },
@@ -113,6 +114,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [BASE_DIR/"static", ]
+
+ASSETS_ROOT = "/static/assets/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
