@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.views import generic
 
 from newspapers_tracker.models import Topic, Newspaper
 
@@ -20,3 +21,8 @@ def index(request: HttpRequest) -> HttpResponse:
         "newspapers_tracker/index.html",
         context=context
     )
+
+
+class TopicListView(generic.ListView):
+    model = Topic
+    paginate_by = 5
