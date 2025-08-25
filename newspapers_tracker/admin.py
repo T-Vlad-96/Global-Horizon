@@ -20,29 +20,35 @@ class RedactorAdmin(UserAdmin):
         ("Experience", {"fields": ("years_of_experience",)}),
     )
     add_fieldsets = (
-        None,
-        {
-            "fields": (
-                "username",
-                "password1",
-                "password2",
-                "first_name",
-                "last_name",
-                "years_of_experience"
-            ),
-        },
-    ),
+        (
+            None,
+            {
+                "fields": (
+                    "username",
+                    "password1",
+                    "password2",
+                    "first_name",
+                    "last_name",
+                    "years_of_experience",
+                ),
+            },
+        ),
+    )
 
 
 @admin.register(Newspaper)
 class NewspaperAdmin(admin.ModelAdmin):
     list_display = (
-        "id", "title", "content", "topic", "published_date", "get_publishers"
+        "id",
+        "title",
+        "content",
+        "topic",
+        "published_date",
+        "get_publishers",
     )
 
     def get_publishers(self, obj):
         publishers = ", ".join([redactor.username for redactor in obj.publishers.all()])
         return publishers
+
     get_publishers.short_description = "Redactors"
-
-

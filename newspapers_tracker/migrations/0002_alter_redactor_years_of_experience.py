@@ -7,13 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('newspapers_tracker', '0001_initial'),
+        ("newspapers_tracker", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='redactor',
-            name='years_of_experience',
-            field=models.PositiveIntegerField(blank=True, null=True, validators=[django.core.validators.MaxValueValidator(70)]),
+            model_name="redactor",
+            name="years_of_experience",
+            field=models.PositiveIntegerField(
+                blank=True,
+                null=True,
+                validators=[django.core.validators.MaxValueValidator(70)],
+            ),
         ),
     ]
