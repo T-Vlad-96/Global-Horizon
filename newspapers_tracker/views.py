@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from newspapers_tracker.forms import TopicForm
-from newspapers_tracker.models import Topic, Newspaper
+from newspapers_tracker.models import Topic, Newspaper, Redactor
 
 
 # Create your views here.
@@ -37,7 +37,13 @@ class TopicUpdateView(generic.UpdateView):
     form_class = TopicForm
     success_url = reverse_lazy("newspapers_tracker:topic-list ")
 
+
 class TopicDeleteView(generic.DeleteView):
     model = Topic
     template_name = "newspapers_tracker/topic_confirm_delete.html"
     success_url = reverse_lazy("newspapers_tracker:topic-list")
+
+
+class RedactorListView(generic.ListView):
+    model = Redactor
+    paginate_by = 5

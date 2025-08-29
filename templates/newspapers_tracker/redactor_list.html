@@ -1,0 +1,34 @@
+{% extends "layouts/base.html" %}
+
+
+{% block content %}
+  <section class="pt-1">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body text-center">
+              <h1 class="text-primary text-gradient">
+                Redactors List
+              </h1>
+              <div>
+                <ul class="list-group list-group-flush">
+                  {% for redactor in redactor_list %}
+                    <li class="list-group-item d-flex justify-content-between py-3 px-4 border-0">
+                      <a href="#" class="fw-bold">
+                        {{ redactor.username }}
+                      </a>
+                      <div class="badge h-25 w-5 bg-primary bg-gradient rounded-circle">
+                        #{{ forloop.counter }}
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
