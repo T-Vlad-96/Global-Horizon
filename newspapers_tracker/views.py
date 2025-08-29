@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
+from newspapers_tracker.forms import TopicForm
 from newspapers_tracker.models import Topic, Newspaper
 
 
@@ -27,5 +28,11 @@ class TopicListView(generic.ListView):
 
 class TopicCreateView(generic.CreateView):
     model = Topic
+    form_class = TopicForm
     success_url = reverse_lazy("newspapers_tracker:topic-list")
-    fields = "__all__"
+
+
+class TopicUpdateView(generic.UpdateView):
+    model = Topic
+    form_class = TopicForm
+    success_url = reverse_lazy("newspapers_tracker:topic-list ")

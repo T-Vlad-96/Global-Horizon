@@ -6,11 +6,28 @@
       <div class="row justify-content-center">
         <div class="card col-lg-8">
           <div class="card-body text-center">
-            <h1 class="text-gradient text-primary mb-4">Topics</h1>
+            <div class="text-center">
+              <h1 class="position-relative mb-4 text-primary">
+                Topics
+              </h1>
+              <a
+                href="{% url 'newspapers_tracker:topic-create' %}"
+                class="position-absolute top-5 end-5 btn btn-primary bg-gradient fw-bold fs-6 rounded-pill"
+                title="Add Topic"
+              >
+                +
+              </a>
+            </div>
             <ul class="list-group list-group-flush">
               {% for topic in topic_list %}
                 <li class="list-group-item d-flex justify-content-between py-3 px-4 border-0">
-                  <span class="fw-semibold">{{ topic.name }}</span>
+                  <a
+                    href="{% url 'newspapers_tracker:topic-update' pk=topic.id %}"
+                    class="fw-semibold"
+                    title="Update Topic"
+                  >
+                    {{ topic.name }}
+                  </a>
                   <span class="badge bg-gradient bg-primary rounded-pill">#{{ forloop.counter }}</span>
                 </li>
               {% endfor %}
