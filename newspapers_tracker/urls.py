@@ -5,6 +5,7 @@ from newspapers_tracker.views import (
     TopicListView,
     TopicCreateView,
     TopicUpdateView,
+    TopicDeleteView,
 )
 
 app_name = "newspapers_tracker"
@@ -14,5 +15,6 @@ urlpatterns = [
     path("topics/", TopicListView.as_view(), name="topic-list"),
     path("topics/create/", TopicCreateView.as_view(), name="topic-create"),
     path("topics/udpate/<int:pk>/", TopicUpdateView.as_view(), name="topic-update"),
+    path("topics/delete/<int:pk>/", TopicDeleteView.as_view(), name="topic-delete"),
 
 ]

@@ -36,3 +36,8 @@ class TopicUpdateView(generic.UpdateView):
     model = Topic
     form_class = TopicForm
     success_url = reverse_lazy("newspapers_tracker:topic-list ")
+
+class TopicDeleteView(generic.DeleteView):
+    model = Topic
+    template_name = "newspapers_tracker/topic_confirm_delete.html"
+    success_url = reverse_lazy("newspapers_tracker:topic-list")

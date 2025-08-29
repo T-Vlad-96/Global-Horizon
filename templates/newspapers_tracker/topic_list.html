@@ -28,7 +28,12 @@
                   >
                     {{ topic.name }}
                   </a>
-                  <span class="badge bg-gradient bg-primary rounded-pill">#{{ forloop.counter }}</span>
+                  <a
+                    href="{% url 'newspapers_tracker:topic-delete' pk=topic.id %}"
+                    class="btn btn-sm bg-gray-100 rounded-circle"
+                  >
+                    🗑
+                  </a>
                 </li>
               {% endfor %}
             </ul>
