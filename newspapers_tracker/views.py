@@ -48,8 +48,14 @@ class RedactorListView(generic.ListView):
     model = Redactor
     paginate_by = 5
 
+
 class RedactorCreateView(generic.CreateView):
     model = Redactor
     form_class = RedactorForm
     success_url = reverse_lazy("newspapers_tracker:redactor-list")
 
+
+class RedactorUpdateView(generic.UpdateView):
+    model = Redactor
+    form_class = RedactorForm
+    success_url = reverse_lazy("newspapers_tracker:redactor-list")

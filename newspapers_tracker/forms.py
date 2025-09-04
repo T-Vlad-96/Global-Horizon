@@ -1,3 +1,5 @@
+from email.policy import default
+
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from django import forms
 from crispy_forms.helper import FormHelper
@@ -12,6 +14,7 @@ from crispy_forms.layout import (
     Column
 )
 from django.contrib.auth.forms import UserCreationForm
+from mypy_extensions import KwArg
 
 from .models import Topic, Redactor
 
@@ -77,7 +80,7 @@ class RedactorForm(UserCreationForm):
                     Column(
                         FloatingField(
                             field,
-                            css_class="form-control bg-white text-dark rounded-3 fw-bold fs-5 px-2 mt-3"
+                            css_class="form-control bg-white text-dark rounded-3 fw-bold fs-5 px-2 mt-3",
                         ),
                         css_class="col-md-5 mx-auto"
                     )
@@ -110,6 +113,7 @@ class RedactorForm(UserCreationForm):
                         Button(
                             "cancel",
                             "Cancel",
+                            onclick="javascript:history.back()",
                             css_class="btn btn-md btn-danger btn-gradient"
                         ),
                         css_class="d-flex justify-content-center gap-5"
