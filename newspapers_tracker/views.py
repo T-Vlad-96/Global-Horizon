@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from newspapers_tracker.forms import TopicForm
+from newspapers_tracker.forms import TopicForm, RedactorForm
 from newspapers_tracker.models import Topic, Newspaper, Redactor
 
 
@@ -47,3 +47,9 @@ class TopicDeleteView(generic.DeleteView):
 class RedactorListView(generic.ListView):
     model = Redactor
     paginate_by = 5
+
+class RedactorCreateView(generic.CreateView):
+    model = Redactor
+    form_class = RedactorForm
+    success_url = reverse_lazy("newspapers_tracker:redactor-list")
+
