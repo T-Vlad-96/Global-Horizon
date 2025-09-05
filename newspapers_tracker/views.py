@@ -59,3 +59,7 @@ class RedactorUpdateView(generic.UpdateView):
     model = Redactor
     form_class = RedactorForm
     success_url = reverse_lazy("newspapers_tracker:redactor-list")
+
+
+class RedactorDetailView(generic.DetailView):
+    model = Redactor

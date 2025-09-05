@@ -1,0 +1,94 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card">
+          <div class="card-body text-center">
+            <div class="row">
+              <div class="col-sm-12 d-flex justify-content-end">
+                <a
+                  href="#"
+                  title="Delete Redactor"
+                  class="btn-link fs-3 float-end mx-3"
+                >
+                  🗑
+                </a>
+                <a
+                  href="{% url 'newspapers_tracker:redactor-update' pk=redactor.id %}"
+                  title="Update Info"
+                  class="btn-link fs-3 float-end"
+                >
+                  🖊
+                </a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <h1 class="text-primary">
+                  {{ redactor }}
+                  <span class="text-dark">Profile</span>
+                </h1>
+              </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+
+              <div class="col-md-6">
+                <img src="" alt="Profile picture">
+              </div>
+
+              <div class="col-md-6">
+                <ul class="list-group text-start">
+                  <li class="list-group-item">
+                    First Name: <span class="fw-bold">{{ redactor.first_name }}</span>
+                  </li>
+                  <li class="list-group-item">
+                    Last Name: <span class="fw-bold">{{ redactor.last_name }}</span>
+                  </li>
+                  <li class="list-group-item">Email: <span class="fw-bold">{% if redactor.email %}
+                    {{ redactor.email }} {% else %}<i>Email was not provided</i>{% endif %}</span>
+                  </li>
+                  <li class="list-group-item">
+                    Experience: <span class="fw-bold">{{ redactor.years_of_experience }} years</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-3">
+              <div class="col-12">
+                <h2 class="text-center">{{ redactor }}'s newspapers</h2>
+                <ul class="list-group border-0">
+                  {% for newspaper in redactor.newspapers.all %}
+                    <li class="list-group-item border-0 text-start mx-3">
+                      <div class="row">
+                        <div class="col-sm-1">
+                        <span class="badge bg-primary bg-gradient me-1 rounded-circle">
+                          #{{ forloop.counter }}
+                        </span>
+                        </div>
+                        <div class="col-sm-3">
+                          <a href="#" class="fw-bold">
+                            {{ newspaper }}
+                          </a>
+                        </div>
+                        <div class="col-sm-8">
+                        <span class="fw-bold mx-3">
+                          published({{ newspaper.published_date }})
+                       </span>
+                        </div>
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

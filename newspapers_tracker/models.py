@@ -9,6 +9,9 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ("name",)
+
 
 class Redactor(AbstractUser):
     years_of_experience = models.PositiveIntegerField(
@@ -22,6 +25,9 @@ class Redactor(AbstractUser):
     def __str__(self):
         return self.username
 
+    class Meta:
+        ordering = ("username",)
+
 
 class Newspaper(models.Model):
     title = models.CharField(max_length=255, unique=True)
@@ -29,3 +35,9 @@ class Newspaper(models.Model):
     published_date = models.DateTimeField(auto_now_add=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     publishers = models.ManyToManyField(Redactor, related_name="newspapers")
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ("title",)
