@@ -1,0 +1,38 @@
+{% extends "layouts/base.html" %}
+
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card mt-3">
+          <div class="card_body text-center">
+            <form action="" method="post" class="text-dark">
+              {% csrf_token %}
+              <p class="fw-bold">
+                Are you sure you want to delete
+                <span class="text-primary text-gradient">
+                  {{ redactor }}
+                </span>
+                ?
+              </p>
+              <input
+                type="submit"
+                value="Delete"
+                class="btn btn-sm btn-danger btn-gradient"
+              >
+              <button
+                type="button"
+                value="Cancel"
+                class="btn btn-sm btn-secondary bg-gradient"
+                onclick="history.back()"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

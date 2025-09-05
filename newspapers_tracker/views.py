@@ -63,3 +63,11 @@ class RedactorUpdateView(generic.UpdateView):
 
 class RedactorDetailView(generic.DetailView):
     model = Redactor
+
+
+class RedactorDeleteView(generic.DeleteView):
+    model = Redactor
+    success_url = reverse_lazy(
+        "newspapers_tracker:redactor-list"
+    )
+    template_name = "newspapers_tracker/redactor_confirm_delete.html"
