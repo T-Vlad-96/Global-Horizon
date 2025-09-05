@@ -1,0 +1,38 @@
+{% extends "layouts/base.html" %}
+
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto mt-3">
+        <div class="card">
+          <div class="card-body text-dark text-center">
+            <h1 class="text-gradient text-primary">
+              Newspapers List
+            </h1>
+            <hr>
+            <ul class="list-group">
+              {% for newspaper in newspaper_list %}
+                <li class="list-group-item d-flex justify-content-between border-0">
+                  <div class="d-flex justify-content-center">
+                    <span class="badge badge-circle bg-gradient bg-primary me-3">
+                      {{ forloop.counter }}
+                    </span>
+                    <div>
+                      <a href="#">
+                        {{ newspaper }}
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    {{ newspaper.published_date }}
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

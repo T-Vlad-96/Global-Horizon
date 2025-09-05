@@ -71,3 +71,8 @@ class RedactorDeleteView(generic.DeleteView):
         "newspapers_tracker:redactor-list"
     )
     template_name = "newspapers_tracker/redactor_confirm_delete.html"
+
+
+class NewspaperList(generic.ListView):
+    model = Newspaper
+    paginate_by = 5
