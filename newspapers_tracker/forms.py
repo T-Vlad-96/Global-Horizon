@@ -1,6 +1,8 @@
 from email.policy import default
+from typing import Union
 
 from crispy_bootstrap5.bootstrap5 import FloatingField
+from crispy_forms.templatetags.crispy_forms_field import css_class
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
@@ -13,10 +15,11 @@ from crispy_forms.layout import (
     Row,
     Column
 )
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from mypy_extensions import KwArg
 
-from .models import Topic, Redactor
+from .models import Topic, Redactor, Newspaper
 
 
 class TopicForm(forms.ModelForm):
@@ -120,5 +123,133 @@ class RedactorForm(UserCreationForm):
                     )
                 ),
                 css_class="mt-3"
+            )
+        )
+
+
+class NewspaperForm(forms.ModelForm):
+    topic = forms.ModelChoiceField(
+        queryset=Topic.objects.all(),
+        widget=forms.RadioSelect(),
+        required=False
+    )
+    publishers = forms.ModelMultipleChoiceField(
+        queryset=get_user_model().objects.all(),
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
+    class Meta:
+        model = Newspaper
+        fields = [
+            "title",
+            "topic",
+            "content",
+            "publishers"
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "w-75 mx-auto bg-primary bg-gradient rounded-3 p-3 mt-3"
+        self.helper.label_class = "fw-bold text-white"
+        self.helper.field_class = "form-control w-100 bg-white text-dark"
+        self.helper.form_show_labels = False
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    Div(
+                        HTML(
+                            f"<label class='text-white fw-bold fs-3'>"
+                            f"{self.fields.get('title').label}:"
+                            f"</label>"
+                        )
+                    ),
+                    css_class="col-md-2"
+                ),
+                Column(
+                    Div(
+                        Field(
+                            "title",
+                            css_class="p-2 fw-bold fs-5"
+                        ),
+                    ),
+                    css_class="col-md-10"
+                ),
+                css_class="container-fluid align-items-center"
+            ),
+            Row(
+                Column(
+                    Div(
+                        HTML(
+                            f"<label class='text-white fw-bold'>Topics</label>"
+                        ),
+                        css_class="text-center"
+                    ),
+                    Div(
+                        Field(
+                            "topic",
+                        ),
+                        css_class="scroll-box bg-white",
+                    )
+                ),
+                Column(
+                    Div(
+                        HTML(
+                            f"<label class='text-white fw-bold'>Publishers</label>",
+                        ),
+                        css_class="text-center"
+                    ),
+                    Div(
+                        Field(
+                            "publishers",
+                        ),
+                        css_class="scroll-box bg-white"
+                    )
+                ),
+                css_class="container-fluid"
+            ),
+            Row(
+                Column(
+                    Div(
+                        HTML(
+                            "<label class='text-white fw-bold m-auto fs-3'>"
+                            "Newspaper Text"
+                            "</label>"
+                        ),
+                        css_class="text-center mb-1"
+                    ),
+                    Div(
+                        Field(
+                            "content",
+                            css_class="p-2"
+                        )
+                    ),
+                    css_class="col-md-12 pt-3"
+                ),
+                css_class="container-fluid"
+            ),
+            Row(
+                Column(
+                    Div(
+                        Submit(
+                            "submit",
+                            value="Save",
+                            css_class="btn btn-md btn-success bg-gradient rounded-3"
+                        )
+                    ),
+                    css_class="col-md-3"
+                ),
+                Column(
+                    Div(
+                        Button(
+                            "cancel",
+                            value="Cancel",
+                            css_class="btn btn-md btn-secondary bg-gradient rounded-3",
+                            onclick="javascript:history.back()"
+                        ),
+                    ),
+                    css_class="col-md-3"
+                ),
+                css_class="container-fluid justify-content-center mx-auto"
             )
         )

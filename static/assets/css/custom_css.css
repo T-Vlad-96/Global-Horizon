@@ -1,0 +1,6 @@
+.scroll-box {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 2px solid #444;
+    border-radius: 10px;
+}

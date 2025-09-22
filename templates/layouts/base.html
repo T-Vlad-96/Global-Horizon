@@ -37,7 +37,10 @@
   <link id="pagestyle" href="{{ ASSETS_ROOT }}/css/material-kit.css?v=3.0.0" rel="stylesheet"/>
 
   <!-- Specific Page CSS goes HERE  -->
-  {% block stylesheets %}{% endblock stylesheets %}
+  {% load static %}
+  {% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'css/custom_css.css' %}">
+  {% endblock stylesheets %}
 
 </head>
 

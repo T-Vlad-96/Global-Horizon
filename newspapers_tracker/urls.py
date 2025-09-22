@@ -12,6 +12,8 @@ from newspapers_tracker.views import (
     RedactorDetailView,
     RedactorDeleteView,
     NewspaperList,
+    NewspaperCreateView,
+    NewspaperUpdateView,
 )
 
 app_name = "newspapers_tracker"
@@ -31,5 +33,7 @@ urlpatterns = [
     path("redactors/delete/<int:pk>/", RedactorDeleteView.as_view(), name="redactor-delete"),
     # Newspaper routes
     path("newspapers/", NewspaperList.as_view(), name="newspaper-list"),
+    path("newspapers/create/", NewspaperCreateView.as_view(), name="newspaper-create"),
+    path("newspapers/update/<int:pk>/", NewspaperUpdateView.as_view(), name="newspaper-update"),
 
 ]
