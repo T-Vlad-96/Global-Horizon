@@ -96,3 +96,9 @@ class NewspaperUpdateView(generic.UpdateView):
 
 class NewspaperDetailView(generic.DetailView):
     model = Newspaper
+
+
+class NewspaperDeleteView(generic.DeleteView):
+    model = Newspaper
+    template_name = "newspapers_tracker/newspaper_delete_confirm.html"
+    success_url = reverse_lazy("newspapers_tracker:newspaper-list")
