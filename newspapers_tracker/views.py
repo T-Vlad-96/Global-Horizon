@@ -86,10 +86,13 @@ class NewspaperCreateView(generic.CreateView):
     )
 
 
-
 class NewspaperUpdateView(generic.UpdateView):
     model = Newspaper
     form_class = NewspaperForm
     success_url = reverse_lazy(
         "newspapers_tracker:newspaper-list"
     )
+
+
+class NewspaperDetailView(generic.DetailView):
+    model = Newspaper
