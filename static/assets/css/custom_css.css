@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .scroll-box {
     max-height: 200px;
     overflow-y: auto;

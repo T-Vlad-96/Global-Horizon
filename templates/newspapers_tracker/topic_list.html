@@ -20,7 +20,7 @@
               </a>
             </div>
             {% crispy search_form %}
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush" id="topics_list">
               {% for topic in topic_list %}
                 <li class="list-group-item d-flex justify-content-between py-3 px-4 border-0">
                   <a
@@ -39,6 +39,9 @@
                 </li>
               {% endfor %}
             </ul>
+            <div class="d-flex justify-content-center mt-3">
+              {% include "includes/pagination.html" %}
+            </div>
           </div>
         </div>
       </div>
