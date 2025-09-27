@@ -1,4 +1,5 @@
 from crispy_bootstrap5.bootstrap5 import FloatingField
+from crispy_forms.templatetags.crispy_forms_field import css_class
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
@@ -286,3 +287,42 @@ class TopicSearchForm(forms.Form):
                 css_class="container-fluid input-group"
             )
         )
+
+
+class RedactorSearchForm(forms.Form):
+    username = forms.CharField(
+        required=False,
+        label="",
+        max_length=60,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by username"
+            }
+        )
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = "GET"
+        self.helper.form_class = "w-50"
+        self.helper.form_show_labels = False
+        self.helper.layout = Layout(
+            Div(
+                Div(
+                    Field(
+                        "username",
+                        css_class="border border-1 rounded-0 px-2"
+                    )
+                ),
+                Div(
+                    Submit(
+                        name="submit",
+                        value="🔍",
+                        css_class="border border-1 rounded-0"
+                    )
+                ),
+                css_class="container-fluid input-group"
+            ),
+        )
+
