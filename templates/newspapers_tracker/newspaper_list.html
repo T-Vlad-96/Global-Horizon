@@ -1,4 +1,5 @@
 {% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
@@ -10,7 +11,7 @@
             <h1 class="text-gradient text-primary">
               Newspapers List
             </h1>
-            <hr>
+            <div>{% crispy search_form %}</div>
             <ul class="list-group">
               {% for newspaper in newspaper_list %}
                 <li class="list-group-item d-flex justify-content-between border-0">

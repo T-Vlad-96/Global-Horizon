@@ -4,7 +4,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from newspapers_tracker.forms import TopicForm, RedactorForm, NewspaperForm, TopicSearchForm, RedactorSearchForm
+from newspapers_tracker.forms import TopicForm, RedactorForm, NewspaperForm, TopicSearchForm, RedactorSearchForm, \
+    NewspaperSearchForm
 from newspapers_tracker.models import Topic, Newspaper, Redactor
 
 
@@ -107,6 +108,21 @@ class RedactorDeleteView(generic.DeleteView):
 class NewspaperList(generic.ListView):
     model = Newspaper
     paginate_by = 5
+    search_form = NewspaperSearchForm
+
+    def get_context_data(self, *, object_list = ..., **kwargs):
+        context =super().get_context_data()
+        context["search_form"] = self.search_form(self.request.GET)
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset()
+        search_form = self.search_form(self.request.GET)
+        if search_form.is_valid():
+            queryset = queryset.filter(
+                title__icontains=search_form.cleaned_data.get("title")
+            )
+        return queryset
 
 
 class NewspaperCreateView(generic.CreateView):

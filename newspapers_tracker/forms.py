@@ -326,3 +326,41 @@ class RedactorSearchForm(forms.Form):
             ),
         )
 
+
+class NewspaperSearchForm(forms.Form):
+    title = forms.CharField(
+        required=False,
+        label="",
+        max_length=60,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by title"
+            }
+        )
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = "GET"
+        self.helper.form_class = "w-50"
+        self.helper.form_show_labels = False
+        self.helper.layout = Layout(
+            Div(
+                Div(
+                    Field(
+                        "title",
+                        css_class="border border-1 rounded-0 px-2"
+                    )
+                ),
+                Div(
+                    Submit(
+                        "submit",
+                        value="🔍",
+                        css_class="border border-1 rounded-0"
+                    )
+                ),
+                css_class="input-group container-fluid"
+            )
+        )
+
