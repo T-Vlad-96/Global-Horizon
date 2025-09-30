@@ -9,10 +9,20 @@
           <div class="card-body">
             <div class="row justify-content-end">
               <div class="col-sm-1">
-                <a href="#" class="btn-link fs-3">🖊</a>
+                <a
+                  href="{% url 'newspapers_tracker:newspaper-update' pk=newspaper.id %}"
+                  class="btn-link fs-3"
+                >
+                  🖊
+                </a>
               </div>
               <div class="col-sm-1">
-                <a href="#" class="btn-link fs-3">🗑</a>
+                <a
+                  href="{% url 'newspapers_tracker:newspaper-delete' pk=newspaper.id %}"
+                  class="btn-link fs-3"
+                >
+                  🗑
+                </a>
               </div>
             </div>
             <div class="row mt-3">
