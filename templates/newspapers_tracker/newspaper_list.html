@@ -10,6 +10,13 @@
           <div class="card-body text-dark text-center">
             <h1 class="text-gradient text-primary">
               Newspapers List
+              <a
+                href="{% url 'newspapers_tracker:newspaper-create' %}"
+                class="float-end"
+                title="Add newspaper"
+              >
+                +
+              </a>
             </h1>
             <div>{% crispy search_form %}</div>
             <ul class="list-group">
@@ -20,7 +27,7 @@
                       {{ forloop.counter }}
                     </span>
                     <div>
-                      <a href="#">
+                      <a href="{% url 'newspapers_tracker:newspaper-detail' pk=newspaper.id %}">
                         {{ newspaper }}
                       </a>
                     </div>
