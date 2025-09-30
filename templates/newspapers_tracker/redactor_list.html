@@ -11,13 +11,23 @@
             <div class="card-body text-center">
               <h1 class="text-primary text-gradient">
                 Redactors List
+                <a
+                  href="{% url 'newspapers_tracker:redactor-create' %}"
+                  class="float-end"
+                  title="Add redactor"
+                >
+                  +
+                </a>
               </h1>
               <div>{% crispy search_form %}</div>
               <div>
                 <ul class="list-group list-group-flush">
                   {% for redactor in redactor_list %}
                     <li class="list-group-item d-flex justify-content-between py-3 px-4 border-0">
-                      <a href="#" class="fw-bold">
+                      <a
+                        href="{% url 'newspapers_tracker:redactor-detail' pk=redactor.id %}"
+                        class="fw-bold"
+                      >
                         {{ redactor.username }}
                       </a>
                       <div class="badge h-25 w-5 bg-primary bg-gradient rounded-circle">
