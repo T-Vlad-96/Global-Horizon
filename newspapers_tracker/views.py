@@ -1,12 +1,26 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from newspapers_tracker.forms import TopicForm, RedactorForm, NewspaperForm, TopicSearchForm, RedactorSearchForm, \
-    NewspaperSearchForm
+from newspapers_tracker.forms import (
+    TopicForm,
+    RedactorForm,
+    NewspaperForm,
+    TopicSearchForm,
+    RedactorSearchForm,
+    NewspaperSearchForm,
+    SingUpForm,
+)
 from newspapers_tracker.models import Topic, Newspaper, Redactor
+
+
+class SingUpView(generic.CreateView):
+    form_class = SingUpForm
+    template_name = "registration/register.html"
+    success_url = reverse_lazy("login")
 
 
 # Create your views here.

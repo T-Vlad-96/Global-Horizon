@@ -18,7 +18,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from newspapers_tracker.views import SingUpView
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("newspapers_tracker.urls", namespace="newspapers_tracker")),
+    path("registration/", include("django.contrib.auth.urls")),
+    path("register/", SingUpView.as_view(), name="register")
 ]

@@ -1,5 +1,4 @@
 from crispy_bootstrap5.bootstrap5 import FloatingField
-from crispy_forms.templatetags.crispy_forms_field import css_class
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
@@ -17,6 +16,55 @@ from django.contrib.auth.forms import UserCreationForm
 
 from .models import Topic, Redactor, Newspaper
 
+
+class SingUpForm(UserCreationForm):
+    class Meta:
+        model = get_user_model()
+        fields = ["username", "password1", "password2", "first_name", "last_name", "years_of_experience"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = "POST"
+        self.helper.form_class = "bg-light rounded-3 py-3 w-100"
+        self.helper.field_class = "bg-white text-dark fw-bold px-3 mx-auto w-90 rounded-3"
+        self.helper.form_show_labels = False
+        for field in self.fields.values():
+            field.help_text = None
+
+        self.helper.layout = Layout(
+            *(
+                Row(
+                    Column(
+                        HTML(
+                            f"<label class='w-30'>{self.fields.get(field).label}:</label>"
+                        ),
+                        Field(
+                            field,
+                            css_class="w-100",
+                        ),
+                        css_class="d-flex justify-content-start col-md-10 mx-auto"
+                    )
+                ) for field in self.fields
+            ),
+            Row(
+                Column(
+                    Submit(
+                        name="submit",
+                        value="Register",
+                        css_class="btn btn-sm bg-success"
+                    ),
+                    Button(
+                        name="cancel",
+                        value="Cancel",
+                        on_click="javascript:history.back()",
+                        css_class="btn btn-sm bg-secondary text-white"
+                    ),
+                    css_class="d-flex justify-content-center col-md-10 mx-auto gap-3"
+                ),
+                css_class="mt-3"
+            )
+        )
 
 class TopicForm(forms.ModelForm):
     class Meta:
