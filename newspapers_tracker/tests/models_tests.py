@@ -9,7 +9,16 @@ from newspapers_tracker.models import (
 
 
 class TopicModelTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.topic = Topic.objects.create(name="test_name")
+
     def test_topic_name_is_unique(self):
-        topic = Topic.objects.create(name="test_name")
         with self.assertRaises(IntegrityError):
             Topic.objects.create(name="test_name")
+
+    def test_topic_str_method(self):
+        self.assertEqual(
+            str(self.topic),
+            "test_name"
+        )
