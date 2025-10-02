@@ -22,3 +22,9 @@ class TopicModelTests(TestCase):
             str(self.topic),
             "test_name"
         )
+
+    def test_topic_ordering(self):
+        self.assertEqual(
+            self.topic._meta.ordering,
+            ("name",)
+        )
