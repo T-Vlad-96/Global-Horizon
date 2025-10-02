@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     "newspapers_tracker",
     "crispy_forms",
     "crispy_bootstrap5",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -137,3 +139,7 @@ CRISPY_FAIL_SILENTLY = not DEBUG
 LOGIN_REDIRECT_URL = "/"
 
 LOGOUT_REDIRECT_URL = "login"
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
