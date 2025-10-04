@@ -92,3 +92,10 @@ class NewspaperModelTests(TestCase):
             str(self.newspaper),
             "test_title"
         )
+
+    def test_newspaper_ordering(self):
+        self.assertEqual(
+            self.newspaper._meta.ordering,
+            ("title", )
+        )
+
