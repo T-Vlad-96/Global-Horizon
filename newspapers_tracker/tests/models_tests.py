@@ -5,7 +5,6 @@ from django.test import TestCase
 
 from newspapers_tracker.models import (
     Topic,
-    Redactor,
     Newspaper
 )
 
@@ -103,7 +102,6 @@ class NewspaperModelTests(TestCase):
     def test_newspaper_ordering(self):
         self.assertEqual(
             self.newspaper._meta.ordering,
-            ("title", ),
+            ("title",),
             msg="Newspaper must be ordered by 'title' field"
         )
-
