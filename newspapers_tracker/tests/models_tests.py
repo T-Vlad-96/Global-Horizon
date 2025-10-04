@@ -22,13 +22,15 @@ class TopicModelTests(TestCase):
     def test_topic_str_method(self):
         self.assertEqual(
             str(self.topic),
-            "test_name"
+            "test_name",
+            msg="__str__ method must return topic name"
         )
 
     def test_topic_ordering(self):
         self.assertEqual(
             self.topic._meta.ordering,
-            ("name",)
+            ("name",),
+            msg="topics must be ordered by 'name' field"
         )
 
 
@@ -46,24 +48,28 @@ class RedactorModelTests(TestCase):
     def test_redactor_is_abstract_user_subclass(self):
         self.assertIsInstance(
             self.user,
-            AbstractUser
+            AbstractUser,
+            msg=f"Redactor must be subclass of {AbstractUser}, not {type(self.user)}"
         )
 
     def test_redactor_str(self):
         self.assertEqual(
             str(self.user),
-            "test_username"
+            "test_username",
+            msg="Redactor __str__ method must return 'username' field value"
         )
 
     def test_redactor_ordering(self):
         self.assertEqual(
             self.user._meta.ordering,
-            ("username",)
+            ("username",),
+            msg="Redactor must be ordered by 'username' field"
         )
 
     def test_years_of_experience_field_exists(self):
         self.assertTrue(
-            hasattr(self.user, "years_of_experience")
+            hasattr(self.user, "years_of_experience"),
+            msg="Redactor must have 'years_of_experience' PositiveInteger field"
         )
 
 
@@ -90,12 +96,14 @@ class NewspaperModelTests(TestCase):
     def test_newspaper_str(self):
         self.assertEqual(
             str(self.newspaper),
-            "test_title"
+            "test_title",
+            msg="Newspaper __str__ must return newspaper's title"
         )
 
     def test_newspaper_ordering(self):
         self.assertEqual(
             self.newspaper._meta.ordering,
-            ("title", )
+            ("title", ),
+            msg="Newspaper must be ordered by 'title' field"
         )
 
