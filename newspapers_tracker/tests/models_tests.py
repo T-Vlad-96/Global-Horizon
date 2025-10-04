@@ -82,6 +82,13 @@ class NewspaperModelTests(TestCase):
         cls.newspaper = Newspaper.objects.create(
             title="test_title",
             content="test_content",
-            topic=cls.topic.id,
+            topic=cls.topic
         )
-        cls.newspaper.publishers.add([cls.publisher1, cls.publisher2])
+        cls.newspaper.publishers.add(cls.publisher1)
+        cls.newspaper.publishers.add(cls.publisher2)
+
+    def test_newspaper_str(self):
+        self.assertEqual(
+            str(self.newspaper),
+            "test_title"
+        )
