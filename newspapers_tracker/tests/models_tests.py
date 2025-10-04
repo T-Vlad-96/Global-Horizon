@@ -61,4 +61,9 @@ class RedactorModelTests(TestCase):
             ("username",)
         )
 
+    def test_years_of_experience_field_exists(self):
+        self.assertTrue(
+            hasattr(self.user, "years_of_experience")
+        )
+
 
