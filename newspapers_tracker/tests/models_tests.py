@@ -55,4 +55,10 @@ class RedactorModelTests(TestCase):
             "test_username"
         )
 
+    def test_redactor_ordering(self):
+        self.assertEqual(
+            self.user._meta.ordering,
+            ("username",)
+        )
+
 
