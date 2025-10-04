@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.test import TestCase
 
@@ -27,4 +28,22 @@ class TopicModelTests(TestCase):
         self.assertEqual(
             self.topic._meta.ordering,
             ("name",)
+        )
+
+
+class RedactorModelTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(
+            username="test_username",
+            first_name="test_first_name",
+            last_name="test_last_name",
+            password="TestPassword123",
+            years_of_experience=25
+        )
+
+    def test_redactor_str(self):
+        self.assertEqual(
+            str(self.user),
+            "test_username"
         )
