@@ -67,3 +67,21 @@ class RedactorModelTests(TestCase):
         )
 
 
+class NewspaperModelTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.topic = Topic.objects.create(
+            name="test_topic"
+        )
+        cls.publisher1 = get_user_model().objects.create_user(
+            username="test_publisher1",
+        )
+        cls.publisher2 = get_user_model().objects.create_user(
+            username="test_publisher2",
+        )
+        cls.newspaper = Newspaper.objects.create(
+            title="test_title",
+            content="test_content",
+            topic=cls.topic.id,
+        )
+        cls.newspaper.publishers.add([cls.publisher1, cls.publisher2])
