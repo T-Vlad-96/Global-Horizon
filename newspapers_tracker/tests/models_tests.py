@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 from django.db import IntegrityError
 from django.test import TestCase
 
@@ -42,8 +43,16 @@ class RedactorModelTests(TestCase):
             years_of_experience=25
         )
 
+    def test_redactor_is_abstract_user_subclass(self):
+        self.assertIsInstance(
+            self.user,
+            AbstractUser
+        )
+
     def test_redactor_str(self):
         self.assertEqual(
             str(self.user),
             "test_username"
         )
+
+
