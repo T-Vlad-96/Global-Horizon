@@ -120,3 +120,22 @@ class TopicListViewPrivateTests(TestCase):
             len(response.context["topic_list"]),
             5
         )
+
+
+class TopicCreateViewPrivateTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(
+            username="test_user",
+            password="Abc12345"
+        )
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+    def test_topic_create_view_access(self):
+        response = self.client.get(TOPIC_CREATE_VIEW_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
