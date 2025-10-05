@@ -215,3 +215,23 @@ class TopicUpdateViewPrivateTests(TestCase):
             response,
             TOPIC_LIST_VIEW_URL
         )
+
+
+class TopicDeleteViewPrivateTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.topic = Topic.objects.create(name="test_topic")
+        cls.user = get_user_model().objects.create_user(
+            username="test_user",
+            password="Abc12345"
+        )
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+    def test_topic_delete_view_access(self):
+        response = self.client.get(TOPIC_DELETE_VIEW_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
