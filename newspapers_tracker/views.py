@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from newspapers_tracker.forms import (
     TopicForm,
@@ -23,7 +24,7 @@ class SingUpView(generic.CreateView):
     success_url = reverse_lazy("login")
 
 
-# Create your views here.
+@login_required
 def index(request: HttpRequest) -> HttpResponse:
     num_topics = Topic.objects.count()
     num_newspapers = Newspaper.objects.count()
@@ -36,7 +37,7 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "newspapers_tracker/index.html", context=context)
 
 
-class TopicListView(generic.ListView):
+class TopicListView(LoginRequiredMixin, generic.ListView):
     model = Topic
     paginate_by = 5
     search_form = TopicSearchForm
@@ -57,25 +58,25 @@ class TopicListView(generic.ListView):
 
 
 
-class TopicCreateView(generic.CreateView):
+class TopicCreateView(LoginRequiredMixin, generic.CreateView):
     model = Topic
     form_class = TopicForm
     success_url = reverse_lazy("newspapers_tracker:topic-list")
 
 
-class TopicUpdateView(generic.UpdateView):
+class TopicUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Topic
     form_class = TopicForm
     success_url = reverse_lazy("newspapers_tracker:topic-list ")
 
 
-class TopicDeleteView(generic.DeleteView):
+class TopicDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Topic
     template_name = "newspapers_tracker/topic_confirm_delete.html"
     success_url = reverse_lazy("newspapers_tracker:topic-list")
 
 
-class RedactorListView(generic.ListView):
+class RedactorListView(LoginRequiredMixin, generic.ListView):
     model = Redactor
     paginate_by = 5
     search_form = RedactorSearchForm
@@ -95,23 +96,23 @@ class RedactorListView(generic.ListView):
         return queryset
 
 
-class RedactorCreateView(generic.CreateView):
+class RedactorCreateView(LoginRequiredMixin, generic.CreateView):
     model = Redactor
     form_class = RedactorForm
     success_url = reverse_lazy("newspapers_tracker:redactor-list")
 
 
-class RedactorUpdateView(generic.UpdateView):
+class RedactorUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Redactor
     form_class = RedactorForm
     success_url = reverse_lazy("newspapers_tracker:redactor-list")
 
 
-class RedactorDetailView(generic.DetailView):
+class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Redactor
 
 
-class RedactorDeleteView(generic.DeleteView):
+class RedactorDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Redactor
     success_url = reverse_lazy(
         "newspapers_tracker:redactor-list"
@@ -119,7 +120,7 @@ class RedactorDeleteView(generic.DeleteView):
     template_name = "newspapers_tracker/redactor_confirm_delete.html"
 
 
-class NewspaperList(generic.ListView):
+class NewspaperList(LoginRequiredMixin, generic.ListView):
     model = Newspaper
     paginate_by = 5
     search_form = NewspaperSearchForm
@@ -139,7 +140,7 @@ class NewspaperList(generic.ListView):
         return queryset
 
 
-class NewspaperCreateView(generic.CreateView):
+class NewspaperCreateView(LoginRequiredMixin, generic.CreateView):
     model = Newspaper
     form_class = NewspaperForm
     success_url = reverse_lazy(
@@ -147,7 +148,7 @@ class NewspaperCreateView(generic.CreateView):
     )
 
 
-class NewspaperUpdateView(generic.UpdateView):
+class NewspaperUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Newspaper
     form_class = NewspaperForm
     success_url = reverse_lazy(
@@ -155,11 +156,11 @@ class NewspaperUpdateView(generic.UpdateView):
     )
 
 
-class NewspaperDetailView(generic.DetailView):
+class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
     model = Newspaper
 
 
-class NewspaperDeleteView(generic.DeleteView):
+class NewspaperDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Newspaper
     template_name = "newspapers_tracker/newspaper_delete_confirm.html"
     success_url = reverse_lazy("newspapers_tracker:newspaper-list")
