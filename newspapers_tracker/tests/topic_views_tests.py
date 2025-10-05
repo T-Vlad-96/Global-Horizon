@@ -129,6 +129,9 @@ class TopicCreateViewPrivateTests(TestCase):
             username="test_user",
             password="Abc12345"
         )
+        cls.new_topic_data = {
+            "name": "new_topic"
+        }
 
     def setUp(self):
         self.client.force_login(self.user)
@@ -138,4 +141,22 @@ class TopicCreateViewPrivateTests(TestCase):
         self.assertEqual(
             response.status_code,
             200
+        )
+
+    def test_topic_create_view_creates_new_instance(self):
+        self.assertEqual(
+            len(Topic.objects.all()),
+            0
+        )
+        response = self.client.post(
+            TOPIC_CREATE_VIEW_URL,
+            self.new_topic_data
+        )
+        self.assertEqual(
+            len(Topic.objects.all()),
+            1
+        )
+        self.assertEqual(
+            Topic.objects.get(id=1).name,
+            "new_topic"
         )
