@@ -60,11 +60,14 @@ class TopicViewsPublicTests(TestCase):
         )
 
 
-class TopicListViewPrivateTests(TestCase):
+class TopicPrivateTests(TestCase):
+    """
+    Create and login the user
+    for views tests where authenticated users is required.
+    """
+
     @classmethod
     def setUpTestData(cls):
-        for i in range(7):
-            Topic.objects.create(name=f"topic_{i}")
         cls.user = get_user_model().objects.create_user(
             username="test_user",
             password="Abc12345"
@@ -72,6 +75,14 @@ class TopicListViewPrivateTests(TestCase):
 
     def setUp(self):
         self.client.force_login(self.user)
+
+
+class TopicListViewPrivateTests(TopicPrivateTests):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        for i in range(7):
+            Topic.objects.create(name=f"topic_{i}")
 
     def test_topic_list_view_access(self):
         response = self.client.get(TOPIC_LIST_VIEW_URL)
@@ -122,19 +133,13 @@ class TopicListViewPrivateTests(TestCase):
         )
 
 
-class TopicCreateViewPrivateTests(TestCase):
+class TopicCreateViewPrivateTests(TopicPrivateTests):
     @classmethod
     def setUpTestData(cls):
-        cls.user = get_user_model().objects.create_user(
-            username="test_user",
-            password="Abc12345"
-        )
+        super().setUpTestData()
         cls.new_topic_data = {
             "name": "new_topic"
         }
-
-    def setUp(self):
-        self.client.force_login(self.user)
 
     def test_topic_create_view_access(self):
         response = self.client.get(TOPIC_CREATE_VIEW_URL)
@@ -172,18 +177,12 @@ class TopicCreateViewPrivateTests(TestCase):
         )
 
 
-class TopicUpdateViewPrivateTests(TestCase):
+class TopicUpdateViewPrivateTests(TopicPrivateTests):
     @classmethod
     def setUpTestData(cls):
-        cls.user = get_user_model().objects.create_user(
-            username="test_user",
-            password="Abc12345"
-        )
+        super().setUpTestData()
         cls.topic = Topic.objects.create(name="test_topic")
         cls.update_data = {"name": "updated_topic"}
-
-    def setUp(self):
-        self.client.force_login(self.user)
 
     def test_topic_update_private_access(self):
         response = self.client.get(TOPIC_UPDATE_VIEW_URL)
@@ -217,17 +216,11 @@ class TopicUpdateViewPrivateTests(TestCase):
         )
 
 
-class TopicDeleteViewPrivateTests(TestCase):
+class TopicDeleteViewPrivateTests(TopicPrivateTests):
     @classmethod
     def setUpTestData(cls):
+        super().setUpTestData()
         cls.topic = Topic.objects.create(name="test_topic")
-        cls.user = get_user_model().objects.create_user(
-            username="test_user",
-            password="Abc12345"
-        )
-
-    def setUp(self):
-        self.client.force_login(self.user)
 
     def test_topic_delete_view_access(self):
         response = self.client.get(TOPIC_DELETE_VIEW_URL)
