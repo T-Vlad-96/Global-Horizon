@@ -79,3 +79,20 @@ class TopicListViewPrivateTests(TestCase):
             response.status_code,
             200
         )
+
+    def test_topic_list_view_paginated_by_5(self):
+        response = self.client.get(TOPIC_LIST_VIEW_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["is_paginated"])
+        self.assertEqual(
+            len(response.context["topic_list"]),
+            5
+        )
+
+    def test_topic_list_view_topics_num_on_second_page(self):
+        response = self.client.get(TOPIC_LIST_VIEW_URL + "?page=2")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            len(response.context["topic_list"]),
+            2
+        )
