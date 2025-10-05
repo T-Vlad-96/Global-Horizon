@@ -25,7 +25,7 @@ urlpatterns = [
     path("", index, name="index"),
     path("topics/", TopicListView.as_view(), name="topic-list"),
     path("topics/create/", TopicCreateView.as_view(), name="topic-create"),
-    path("topics/udpate/<int:pk>/", TopicUpdateView.as_view(), name="topic-update"),
+    path("topics/update/<int:pk>/", TopicUpdateView.as_view(), name="topic-update"),
     path("topics/delete/<int:pk>/", TopicDeleteView.as_view(), name="topic-delete"),
     # Redactor routes
     path("redactors/", RedactorListView.as_view(), name="redactor-list"),
