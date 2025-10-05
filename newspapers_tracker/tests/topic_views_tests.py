@@ -96,3 +96,27 @@ class TopicListViewPrivateTests(TestCase):
             len(response.context["topic_list"]),
             2
         )
+
+    def test_search_form_in_context(self):
+        response = self.client.get(TOPIC_LIST_VIEW_URL)
+        self.assertIn("search_form", response.context)
+
+    def test_topic_list_view_searching(self):
+        response = self.client.get(TOPIC_LIST_VIEW_URL + "?name=1")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            len(response.context["topic_list"]),
+            1
+        )
+        self.assertEqual(
+            response.context["topic_list"][0].name,
+            "topic_1"
+        )
+
+    def test_empty_search_returns_full_list(self):
+        response = self.client.get(TOPIC_LIST_VIEW_URL + "?name= ")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            len(response.context["topic_list"]),
+            5
+        )
