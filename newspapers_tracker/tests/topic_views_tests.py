@@ -235,3 +235,14 @@ class TopicDeleteViewPrivateTests(TestCase):
             response.status_code,
             200
         )
+
+    def test_topic_delete_view_deletes_instance(self):
+        self.assertEqual(
+            len(Topic.objects.all()),
+            1
+        )
+        response = self.client.post(TOPIC_DELETE_VIEW_URL)
+        self.assertEqual(
+            len(Topic.objects.all()),
+            0
+        )
