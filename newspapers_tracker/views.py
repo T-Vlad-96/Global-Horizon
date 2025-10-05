@@ -67,7 +67,7 @@ class TopicCreateView(LoginRequiredMixin, generic.CreateView):
 class TopicUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Topic
     form_class = TopicForm
-    success_url = reverse_lazy("newspapers_tracker:topic-list ")
+    success_url = reverse_lazy("newspapers_tracker:topic-list")
 
 
 class TopicDeleteView(LoginRequiredMixin, generic.DeleteView):
