@@ -19,29 +19,32 @@ class TopicViewsPublicTests(TestCase):
         response = self.client.get(TOPIC_LIST_VIEW_URL)
         self.assertNotEquals(
             response.status_code,
-            200
+            200,
+            msg="Access for authenticated users only"
         )
         self.assertRedirects(
             response,
-            reverse_lazy("login") + "?next=/topics/"
+            reverse_lazy("login") + "?next=/topics/",
         )
 
     def test_topic_create_view_public(self):
         response = self.client.get(TOPIC_CREATE_VIEW_URL)
         self.assertNotEquals(
             response.status_code,
-            200
+            200,
+            msg="Access for authenticated users only"
         )
         self.assertRedirects(
             response,
-            reverse_lazy("login") + "?next=/topics/create/"
+            reverse_lazy("login") + "?next=/topics/create/",
         )
 
     def test_topic_update_view_public(self):
         response = self.client.get(TOPIC_UPDATE_VIEW_URL)
         self.assertNotEquals(
             response.status_code,
-            200
+            200,
+            msg="Access for authenticated users only"
         )
         self.assertRedirects(
             response,
@@ -52,7 +55,8 @@ class TopicViewsPublicTests(TestCase):
         response = self.client.get(TOPIC_DELETE_VIEW_URL)
         self.assertNotEquals(
             response.status_code,
-            200
+            200,
+            msg="Access for authenticated users only"
         )
         self.assertRedirects(
             response,
@@ -88,29 +92,38 @@ class TopicListViewPrivateTests(TopicPrivateTests):
         response = self.client.get(TOPIC_LIST_VIEW_URL)
         self.assertEqual(
             response.status_code,
-            200
+            200,
         )
 
     def test_topic_list_view_paginated_by_5(self):
         response = self.client.get(TOPIC_LIST_VIEW_URL)
+        num_of_topics_on_page = len(response.context["topic_list"])
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["is_paginated"])
         self.assertEqual(
-            len(response.context["topic_list"]),
-            5
+            num_of_topics_on_page,
+            5,
+            msg=f"topic list must be paginated by 6 not by {num_of_topics_on_page}"
         )
 
     def test_topic_list_view_topics_num_on_second_page(self):
         response = self.client.get(TOPIC_LIST_VIEW_URL + "?page=2")
+        num_of_topics_on_page_2 = len(response.context["topic_list"])
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            len(response.context["topic_list"]),
-            2
+            num_of_topics_on_page_2,
+            2,
+            msg=f"Incorrect pagination, "
+                f"second page must have 3 elements not {num_of_topics_on_page_2}"
         )
 
     def test_search_form_in_context(self):
         response = self.client.get(TOPIC_LIST_VIEW_URL)
-        self.assertIn("search_form", response.context)
+        self.assertIn(
+            "search_form",
+            response.context,
+            msg="context must contain 'search_form'"
+        )
 
     def test_topic_list_view_searching(self):
         response = self.client.get(TOPIC_LIST_VIEW_URL + "?name=1")
@@ -129,7 +142,8 @@ class TopicListViewPrivateTests(TopicPrivateTests):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             len(response.context["topic_list"]),
-            5
+            5,
+            msg="Empty search must return full list of elements on a page"
         )
 
 
@@ -145,7 +159,7 @@ class TopicCreateViewPrivateTests(TopicPrivateTests):
         response = self.client.get(TOPIC_CREATE_VIEW_URL)
         self.assertEqual(
             response.status_code,
-            200
+            200,
         )
 
     def test_topic_create_view_creates_new_instance(self):
@@ -194,7 +208,7 @@ class TopicUpdateViewPrivateTests(TopicPrivateTests):
     def test_topic_update_view_updates_instance(self):
         self.assertEqual(
             Topic.objects.get(id=1).name,
-            "test_topic"
+            "test_topic",
         )
         self.client.post(
             TOPIC_UPDATE_VIEW_URL,
