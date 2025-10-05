@@ -246,3 +246,10 @@ class TopicDeleteViewPrivateTests(TestCase):
             len(Topic.objects.all()),
             0
         )
+
+    def test_topic_delete_view_redirects(self):
+        response = self.client.post(TOPIC_DELETE_VIEW_URL)
+        self.assertRedirects(
+            response,
+            TOPIC_LIST_VIEW_URL
+        )
