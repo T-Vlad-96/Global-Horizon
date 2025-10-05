@@ -170,3 +170,23 @@ class TopicCreateViewPrivateTests(TestCase):
             response,
             TOPIC_LIST_VIEW_URL
         )
+
+
+class TopicUpdateViewPrivateTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(
+            username="test_user",
+            password="Abc12345"
+        )
+        cls.topic = Topic.objects.create(name="test_topic")
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+    def test_topic_update_private_access(self):
+        response = self.client.get(TOPIC_UPDATE_VIEW_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
