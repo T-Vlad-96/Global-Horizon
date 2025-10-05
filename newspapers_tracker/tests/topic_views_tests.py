@@ -46,3 +46,14 @@ class TopicViewsPublicTests(TestCase):
             response,
             reverse_lazy("login") + "?next=/topics/update/1/"
         )
+
+    def test_topic_delete_view_public(self):
+        response = self.client.get(TOPIC_DELETE_VIEW_URL)
+        self.assertNotEquals(
+            response.status_code,
+            200
+        )
+        self.assertRedirects(
+            response,
+            reverse_lazy("login") + "?next=/topics/delete/1/"
+        )
