@@ -160,3 +160,13 @@ class TopicCreateViewPrivateTests(TestCase):
             Topic.objects.get(id=1).name,
             "new_topic"
         )
+
+    def test_topic_create_view_redirects(self):
+        response = self.client.post(
+            TOPIC_CREATE_VIEW_URL,
+            self.new_topic_data
+        )
+        self.assertRedirects(
+            response,
+            TOPIC_LIST_VIEW_URL
+        )
