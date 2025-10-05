@@ -180,6 +180,7 @@ class TopicUpdateViewPrivateTests(TestCase):
             password="Abc12345"
         )
         cls.topic = Topic.objects.create(name="test_topic")
+        cls.update_data = {"name": "updated_topic"}
 
     def setUp(self):
         self.client.force_login(self.user)
@@ -189,4 +190,18 @@ class TopicUpdateViewPrivateTests(TestCase):
         self.assertEqual(
             response.status_code,
             200
+        )
+
+    def test_topic_update_view_updates_instance(self):
+        self.assertEqual(
+            Topic.objects.get(id=1).name,
+            "test_topic"
+        )
+        self.client.post(
+            TOPIC_UPDATE_VIEW_URL,
+            self.update_data
+        )
+        self.assertEqual(
+            Topic.objects.get(id=1).name,
+            "updated_topic"
         )
