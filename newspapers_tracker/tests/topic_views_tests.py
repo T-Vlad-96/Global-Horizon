@@ -205,3 +205,13 @@ class TopicUpdateViewPrivateTests(TestCase):
             Topic.objects.get(id=1).name,
             "updated_topic"
         )
+
+    def test_topic_update_redirects(self):
+        response = self.client.post(
+            TOPIC_UPDATE_VIEW_URL,
+            self.update_data
+        )
+        self.assertRedirects(
+            response,
+            TOPIC_LIST_VIEW_URL
+        )
