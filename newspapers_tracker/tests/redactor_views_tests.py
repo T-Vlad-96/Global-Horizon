@@ -93,3 +93,29 @@ class RedactorModelViewsPublic(TestCase):
             response,
             reverse_lazy("login") + f"?next={REDACTOR_DELETE_VIEW_URL}"
         )
+
+
+class RedactorPrivate(TestCase):
+    """
+    class to create and login the user that is going to
+    serve as a client for our tests.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(
+            username="test_user",
+            password="TestPassword123"
+        )
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+
+class RedactorListViewPrivateTests(RedactorPrivate):
+    def test_redactor_list_view_private_access(self):
+        response = self.client.get(REDACTOR_LIST_VIEW_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
