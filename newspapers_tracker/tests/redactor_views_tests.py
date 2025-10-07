@@ -107,6 +107,11 @@ class RedactorPrivate(TestCase):
             username="test_user",
             password="TestPassword123"
         )
+        for i in range(7):
+            get_user_model().objects.create_user(
+                username=f"user_{i}",
+                password="Abc12345"
+            )
 
     def setUp(self):
         self.client.force_login(self.user)
@@ -119,3 +124,26 @@ class RedactorListViewPrivateTests(RedactorPrivate):
             response.status_code,
             200
         )
+
+    def test_redactor_list_is_paginated_by_5(self):
+        response = self.client.get(REDACTOR_LIST_VIEW_URL)
+        self.assertEqual(
+            len(response.context["redactor_list"]),
+            5
+        )
+
+    def test_num_of_instances_on_second_page(self):
+        # 8 redactor instance in general.
+        # second page must have 3 instances if paginated_by = 5
+        response = self.client.get(REDACTOR_LIST_VIEW_URL + "?page=2")
+        self.assertEqual(
+            response.status_code,
+            200
+        )
+        self.assertEqual(
+            len(response.context["redactor_list"]),
+            3
+        )
+
+
+
