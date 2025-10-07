@@ -18,3 +18,78 @@ REDACTOR_DELETE_VIEW_URL = reverse_lazy(
     "newspapers_tracker:redactor-delete",
     kwargs={"pk": 1}
 )
+
+
+class RedactorModelViewsPublic(TestCase):
+    """
+    Class to tests if the views related to
+    Redactor model are available for
+    unauthenticated users
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.redactor = get_user_model().objects.create_user(
+            username="test_user",
+            password="TestPassword123"
+        )
+
+    def test_redactor_list_public(self):
+        response = self.client.get(REDACTOR_LIST_VIEW_URL)
+        self.assertNotEquals(
+            response.status_code,
+            200,
+            msg="unauthenticated users mustn't have access to redactor_list page"
+        )
+        self.assertRedirects(
+            response,
+            reverse_lazy("login") + f"?next={REDACTOR_LIST_VIEW_URL}"
+        )
+
+    def test_redactor_create_view_public(self):
+        response = self.client.get(REDACTOR_CREATE_VIEW_URL)
+        self.assertNotEquals(
+            response.status_code,
+            200,
+            msg="unauthenticated users mustn't have access to redactor_create page"
+        )
+        self.assertRedirects(
+            response,
+            reverse_lazy("login") + f"?next={REDACTOR_CREATE_VIEW_URL}"
+        )
+
+    def test_redactor_update_view_public(self):
+        response = self.client.get(REDACTOR_UPDATE_VIEW_URL)
+        self.assertNotEquals(
+            response.status_code,
+            200,
+            msg="unauthenticated users mustn't have access to redactor_update page"
+        )
+        self.assertRedirects(
+            response,
+            reverse_lazy("login") + f"?next={REDACTOR_UPDATE_VIEW_URL}"
+        )
+
+    def test_redactor_detail_view_public(self):
+        response = self.client.get(REDACTOR_DETAIL_VIEW_URL)
+        self.assertNotEquals(
+            response.status_code,
+            200,
+            msg="unauthenticated users mustn't have access to redactor_detail page"
+        )
+        self.assertRedirects(
+            response,
+            reverse_lazy("login") + f"?next={REDACTOR_DETAIL_VIEW_URL}"
+        )
+
+    def test_redactor_delete_view_public(self):
+        response = self.client.get(REDACTOR_DELETE_VIEW_URL)
+        self.assertNotEquals(
+            response.status_code,
+            200,
+            msg="unauthenticated users mustn't have access to redactor_delete page"
+        )
+        self.assertRedirects(
+            response,
+            reverse_lazy("login") + f"?next={REDACTOR_DELETE_VIEW_URL}"
+        )
