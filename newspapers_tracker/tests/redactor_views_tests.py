@@ -178,9 +178,40 @@ class RedactorListViewPrivateTests(RedactorPrivate):
 
 
 class RedactorCreateViewPrivateTests(RedactorPrivate):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.new_redactor_data = {
+            "username": "new_user",
+            "email": "test@gmail.com",
+            "password1": "TestPassword123",
+            "password2": "TestPassword123",
+            "first_name": "new_user_first_name",
+            "last_name": "new_user_last_name",
+            "years_of_experience": 1
+        }
+
     def test_redactor_create_view_access(self):
         response = self.client.get(REDACTOR_LIST_VIEW_URL)
         self.assertEqual(
             response.status_code,
             200
+        )
+
+    def test_redactor_create_view_creates_new_instance(self):
+        self.assertEqual(
+            len(get_user_model().objects.all()),
+            8
+        )
+        response = self.client.post(
+            REDACTOR_CREATE_VIEW_URL,
+            self.new_redactor_data,
+        )
+        errors = ""
+        if hasattr(response, "context") and response.context:
+            errors = response.context["form"].errors.as_text()
+        self.assertEqual(
+            len(get_user_model().objects.all()),
+            9,
+            msg=f"{errors}"
         )
