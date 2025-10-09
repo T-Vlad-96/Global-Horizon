@@ -175,3 +175,12 @@ class RedactorListViewPrivateTests(RedactorPrivate):
             len(response.context["redactor_list"]),
             5
         )
+
+
+class RedactorCreateViewPrivateTests(RedactorPrivate):
+    def test_redactor_create_view_access(self):
+        response = self.client.get(REDACTOR_LIST_VIEW_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
