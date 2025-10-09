@@ -107,17 +107,21 @@ class RedactorPrivate(TestCase):
             username="test_user",
             password="TestPassword123"
         )
-        for i in range(7):
-            get_user_model().objects.create_user(
-                username=f"user_{i}",
-                password="Abc12345"
-            )
 
     def setUp(self):
         self.client.force_login(self.user)
 
 
 class RedactorListViewPrivateTests(RedactorPrivate):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        for i in range(7):
+            get_user_model().objects.create_user(
+                username=f"user_{i}",
+                password="Abc12345"
+            )
+
     def test_redactor_list_view_private_access(self):
         response = self.client.get(REDACTOR_LIST_VIEW_URL)
         self.assertEqual(
@@ -201,7 +205,7 @@ class RedactorCreateViewPrivateTests(RedactorPrivate):
     def test_redactor_create_view_creates_new_instance(self):
         self.assertEqual(
             len(get_user_model().objects.all()),
-            8
+            1
         )
         response = self.client.post(
             REDACTOR_CREATE_VIEW_URL,
@@ -212,7 +216,7 @@ class RedactorCreateViewPrivateTests(RedactorPrivate):
             errors = response.context["form"].errors.as_text()
         self.assertEqual(
             len(get_user_model().objects.all()),
-            9,
+            2,
             msg=f"{errors}"
         )
 
@@ -224,4 +228,26 @@ class RedactorCreateViewPrivateTests(RedactorPrivate):
         self.assertRedirects(
             response,
             REDACTOR_LIST_VIEW_URL,
+        )
+
+
+class RedactorUpdateViewPrivateTests(RedactorPrivate):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.data_to_user_update = {
+            "username": "user_updated",
+            "email": "test@gmail.com",
+            "password1": "TestPassword123",
+            "password2": "TestPassword123",
+            "first_name": "updated_first_name",
+            "last_name": "updated_last_name",
+            "years_of_experience": 2
+        }
+
+    def test_redactor_update_view_access(self):
+        response = self.client.get(REDACTOR_UPDATE_VIEW_URL)
+        self.assertEqual(
+            response.status_code,
+            200
         )
