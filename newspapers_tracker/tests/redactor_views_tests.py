@@ -215,3 +215,13 @@ class RedactorCreateViewPrivateTests(RedactorPrivate):
             9,
             msg=f"{errors}"
         )
+
+    def test_redactor_create_view_redirects(self):
+        response = self.client.post(
+            REDACTOR_CREATE_VIEW_URL,
+            self.new_redactor_data,
+        )
+        self.assertRedirects(
+            response,
+            REDACTOR_LIST_VIEW_URL,
+        )
