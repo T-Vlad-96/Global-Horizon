@@ -145,5 +145,33 @@ class RedactorListViewPrivateTests(RedactorPrivate):
             3
         )
 
+    def test_search_form_in_context(self):
+        response = self.client.get(REDACTOR_LIST_VIEW_URL)
+        self.assertIn(
+            "search_form",
+            response.context
+        )
 
+    def test_searching(self):
+        response = self.client.get(
+            REDACTOR_LIST_VIEW_URL,
+            {"username": "1"}
+        )
+        self.assertEqual(
+            len(response.context["redactor_list"]),
+            1
+        )
+        self.assertEqual(
+            response.context["redactor_list"][0].username,
+            "user_1"
+        )
 
+    def test_empty_search(self):
+        response = self.client.get(
+            REDACTOR_LIST_VIEW_URL,
+            {"username": ""}
+        )
+        self.assertEqual(
+            len(response.context["redactor_list"]),
+            5
+        )
