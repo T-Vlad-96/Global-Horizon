@@ -66,6 +66,7 @@ class SingUpForm(UserCreationForm):
             )
         )
 
+
 class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
@@ -99,21 +100,9 @@ class TopicForm(forms.ModelForm):
         )
 
 
-class RedactorForm(UserCreationForm):
-    class Meta:
-        model = Redactor
-        fields = [
-            "username",
-            "email",
-            "password1",
-            "password2",
-            "first_name",
-            "last_name",
-            "years_of_experience",
-        ]
+class RedactorFormCrispyStyleMixin:
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def _setup_helper(self):
         self.helper = FormHelper()
         self.helper.form_class = "w-75 mx-auto rounded-3 bg-primary bg-gradient mt-1 p-1"
         self.helper.label_class = "form-label text-dark"
@@ -169,6 +158,34 @@ class RedactorForm(UserCreationForm):
                 css_class="mt-3"
             )
         )
+
+
+class RedactorCreateForm(UserCreationForm, RedactorFormCrispyStyleMixin):
+    class Meta:
+        model = Redactor
+        fields = [
+            "username",
+            "email",
+            "password1",
+            "password2",
+            "first_name",
+            "last_name",
+            "years_of_experience",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        super()._setup_helper()
+
+
+class RedactorUpdateForm(forms.ModelForm, RedactorFormCrispyStyleMixin):
+    class Meta:
+        model = Redactor
+        fields = ["username", "email", "first_name", "last_name", "years_of_experience"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        super()._setup_helper()
 
 
 class NewspaperForm(forms.ModelForm):
@@ -321,7 +338,7 @@ class TopicSearchForm(forms.Form):
             Div(
                 Div(
                     Field(
-                        "name",
+                        [i for i in self.fields.keys()][0],
                         css_class="border border-1 rounded-0 px-2"
                     ),
                 ),
@@ -411,4 +428,3 @@ class NewspaperSearchForm(forms.Form):
                 css_class="input-group container-fluid"
             )
         )
-

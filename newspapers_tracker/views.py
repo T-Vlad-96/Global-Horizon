@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 
 from newspapers_tracker.forms import (
     TopicForm,
-    RedactorForm,
+    RedactorUpdateForm,
+    RedactorCreateForm,
     NewspaperForm,
     TopicSearchForm,
     RedactorSearchForm,
@@ -98,13 +99,13 @@ class RedactorListView(LoginRequiredMixin, generic.ListView):
 
 class RedactorCreateView(LoginRequiredMixin, generic.CreateView):
     model = Redactor
-    form_class = RedactorForm
+    form_class = RedactorCreateForm
     success_url = reverse_lazy("newspapers_tracker:redactor-list")
 
 
 class RedactorUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Redactor
-    form_class = RedactorForm
+    form_class = RedactorUpdateForm
     success_url = reverse_lazy("newspapers_tracker:redactor-list")
 
 
