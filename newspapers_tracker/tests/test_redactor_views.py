@@ -238,8 +238,6 @@ class RedactorUpdateViewPrivateTests(RedactorPrivate):
         cls.data_to_user_update = {
             "username": "user_updated",
             "email": "test@gmail.com",
-            "password1": "TestPassword123",
-            "password2": "TestPassword123",
             "first_name": "updated_first_name",
             "last_name": "updated_last_name",
             "years_of_experience": 2
@@ -250,4 +248,32 @@ class RedactorUpdateViewPrivateTests(RedactorPrivate):
         self.assertEqual(
             response.status_code,
             200
+        )
+
+    def test_redactor_update_view_updates_an_instance(self):
+        redactor_instance = get_user_model().objects.get(id=1)
+        self.assertNotEquals(
+            {
+                "username": redactor_instance.username,
+                "email": redactor_instance.email,
+                "first_name": redactor_instance.first_name,
+                "last_name": redactor_instance.last_name,
+                "years_of_experience": redactor_instance.years_of_experience
+            },
+            self.data_to_user_update
+        )
+        response = self.client.post(
+            REDACTOR_UPDATE_VIEW_URL,
+            self.data_to_user_update
+        )
+        redactor_instance = get_user_model().objects.get(id=1)
+        self.assertEqual(
+            {
+                "username": redactor_instance.username,
+                "email": redactor_instance.email,
+                "first_name": redactor_instance.first_name,
+                "last_name": redactor_instance.last_name,
+                "years_of_experience": redactor_instance.years_of_experience
+            },
+            self.data_to_user_update
         )
