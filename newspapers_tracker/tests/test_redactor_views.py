@@ -277,3 +277,13 @@ class RedactorUpdateViewPrivateTests(RedactorPrivate):
             },
             self.data_to_user_update
         )
+
+    def test_redactor_update_view_redirects(self):
+        response = self.client.post(
+            REDACTOR_UPDATE_VIEW_URL,
+            self.data_to_user_update
+        )
+        self.assertRedirects(
+            response,
+            REDACTOR_LIST_VIEW_URL
+        )
