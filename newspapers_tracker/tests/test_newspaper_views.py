@@ -16,7 +16,7 @@ NEWSPAPER_UPDATE_URL = reverse_lazy(
 )
 NEWSPAPER_DELETE_URL = reverse_lazy(
     "newspapers_tracker:newspaper-delete",
-    kwargs={"pk": 2}
+    kwargs={"pk": 1}
 )
 
 
@@ -60,6 +60,14 @@ class NewspaperViewsPublicTests(TestCase):
 
     def test_newspaper_update_view_access_public(self):
         response = self.client.get(NEWSPAPER_UPDATE_URL)
+        self.assertNotEquals(
+            response.status_code,
+            200,
+            msg="Access for authenticated users only"
+        )
+
+    def test_newspaper_delete_view_access_public(self):
+        response = self.client.get(NEWSPAPER_DELETE_URL)
         self.assertNotEquals(
             response.status_code,
             200,
