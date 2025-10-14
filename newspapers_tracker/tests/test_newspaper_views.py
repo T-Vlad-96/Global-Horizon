@@ -158,3 +158,10 @@ class NewspaperListViewPrivateTests(NewspaperPrivate):
             len(response.context["newspaper_list"]),
             5
         )
+
+    def test_newspaper_list_uses_correct_template(self):
+        response = self.client.get(NEWSPAPER_LIST_URL)
+        self.assertTemplateUsed(
+            response,
+            "newspapers_tracker/newspaper_list.html"
+        )
