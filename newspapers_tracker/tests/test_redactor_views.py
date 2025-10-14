@@ -304,3 +304,11 @@ class RedactorDetailViewPrivateTests(RedactorPrivate):
             "newspapers_tracker/redactor_detail.html"
         )
 
+
+class RedactorDeleteViewPrivateTests(RedactorPrivate):
+    def test_redactor_delete_view_access(self):
+        response = self.client.get(REDACTOR_DELETE_VIEW_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
