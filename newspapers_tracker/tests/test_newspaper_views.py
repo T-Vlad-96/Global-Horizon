@@ -57,3 +57,11 @@ class NewspaperViewsPublicTests(TestCase):
             200,
             msg="Access for authenticated users only"
         )
+
+    def test_newspaper_update_view_access_public(self):
+        response = self.client.get(NEWSPAPER_UPDATE_URL)
+        self.assertNotEquals(
+            response.status_code,
+            200,
+            msg="Access for authenticated users only"
+        )
