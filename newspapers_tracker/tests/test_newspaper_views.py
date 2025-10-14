@@ -91,3 +91,12 @@ class NewspaperPrivate(TestCase):
 
     def setUp(self):
         self.client.force_login(self.user)
+
+
+class NewspaperListViewPrivateTests(NewspaperPrivate):
+    def test_newspaper_list_view_access(self):
+        response = self.client.get(NEWSPAPER_LIST_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
