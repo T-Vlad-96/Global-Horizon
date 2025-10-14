@@ -199,3 +199,13 @@ class NewspaperCreateViewPrivateTests(NewspaperPrivate):
             len(Newspaper.objects.all()),
             2
         )
+
+    def test_newspaper_create_view_redirects(self):
+        response = self.client.post(
+            NEWSPAPER_CREATE_URL,
+            self.new_newspaper_data
+        )
+        self.assertRedirects(
+            response,
+            NEWSPAPER_LIST_URL
+        )
