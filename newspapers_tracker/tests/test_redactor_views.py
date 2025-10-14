@@ -16,7 +16,7 @@ REDACTOR_UPDATE_VIEW_URL = reverse_lazy(
 )
 REDACTOR_DELETE_VIEW_URL = reverse_lazy(
     "newspapers_tracker:redactor-delete",
-    kwargs={"pk": 1}
+    kwargs={"pk": 2}
 )
 
 
@@ -306,9 +306,32 @@ class RedactorDetailViewPrivateTests(RedactorPrivate):
 
 
 class RedactorDeleteViewPrivateTests(RedactorPrivate):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.user_to_delete = get_user_model().objects.create_user(
+            username="user_to_delete",
+            password="TestPassword123"
+        )
+
     def test_redactor_delete_view_access(self):
         response = self.client.get(REDACTOR_DELETE_VIEW_URL)
         self.assertEqual(
             response.status_code,
             200
+        )
+
+    def test_redactor_delete_view_deletes_user(self):
+        self.assertEqual(
+            len(get_user_model().objects.all()),
+            2
+        )
+        self.client.post(REDACTOR_DELETE_VIEW_URL)
+        self.assertEqual(
+            len(get_user_model().objects.all()),
+            1
+        )
+        self.assertEqual(
+            get_user_model().objects.first().username,
+            "test_user"
         )
