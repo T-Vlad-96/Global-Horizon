@@ -73,3 +73,21 @@ class NewspaperViewsPublicTests(TestCase):
             200,
             msg="Access for authenticated users only"
         )
+
+
+class NewspaperPrivate(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(
+            username="test_user",
+            password="TestPassword123"
+        )
+        topic = Topic.objects.create(name="test_topic")
+        newspaper = Newspaper.objects.create(
+            title="test_newspaper",
+            topic=topic
+        )
+        newspaper.publishers.add(cls.user)
+
+    def setUp(self):
+        self.client.force_login(self.user)
