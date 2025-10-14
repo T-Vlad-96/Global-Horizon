@@ -216,3 +216,23 @@ class NewspaperCreateViewPrivateTests(NewspaperPrivate):
             response,
             "newspapers_tracker/newspaper_form.html"
         )
+
+
+class NewspaperUpdateViewPrivateTests(NewspaperPrivate):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.topic_1 = Topic.objects.create(name="test_topic_1")
+        cls.new_newspaper_data = {
+            "title": "updated_newspaper",
+            "topic": cls.topic.id,
+            "content": "New content update",
+            "publishers": [cls.user.id]
+        }
+
+    def test_newspaper_update_view_access(self):
+        response = self.client.get(NEWSPAPER_UPDATE_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
