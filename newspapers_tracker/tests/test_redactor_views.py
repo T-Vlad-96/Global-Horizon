@@ -297,3 +297,10 @@ class RedactorDetailViewPrivateTests(RedactorPrivate):
             200
         )
 
+    def test_redactor_detail_view_template(self):
+        response = self.client.get(REDACTOR_DETAIL_VIEW_URL)
+        self.assertTemplateUsed(
+            response,
+            "newspapers_tracker/redactor_detail.html"
+        )
+
