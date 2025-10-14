@@ -335,3 +335,10 @@ class RedactorDeleteViewPrivateTests(RedactorPrivate):
             get_user_model().objects.first().username,
             "test_user"
         )
+
+    def test_redactor_delete_view_redirects(self):
+        response = self.client.post(REDACTOR_DELETE_VIEW_URL)
+        self.assertRedirects(
+            response,
+            REDACTOR_LIST_VIEW_URL
+        )
