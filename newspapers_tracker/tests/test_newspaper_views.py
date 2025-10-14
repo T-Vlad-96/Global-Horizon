@@ -133,3 +133,28 @@ class NewspaperListViewPrivateTests(NewspaperPrivate):
             2,
             msg="num of instances on second page must be 2 if paginated_by = 5"
         )
+
+    def test_newspaper_list_context_has_search_form(self):
+        response = self.client.get(NEWSPAPER_LIST_URL)
+        self.assertIn(
+            "search_form",
+            response.context
+        )
+
+    def test_searching_on_newspaper_list_page(self):
+        response = self.client.get(NEWSPAPER_LIST_URL, {"title": "1"})
+        self.assertEqual(
+            len(response.context["newspaper_list"]),
+            1
+        )
+        self.assertEqual(
+            response.context["newspaper_list"][0].title,
+            "newspaper_1"
+        )
+
+    def test_newspaper_list_empty_search_returns_full_list(self):
+        response = self.client.get(NEWSPAPER_LIST_URL, {"title": ""})
+        self.assertEqual(
+            len(response.context["newspaper_list"]),
+            5
+        )
