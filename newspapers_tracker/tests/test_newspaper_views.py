@@ -209,3 +209,10 @@ class NewspaperCreateViewPrivateTests(NewspaperPrivate):
             response,
             NEWSPAPER_LIST_URL
         )
+
+    def test_newspaper_create_view_uses_correct_template(self):
+        response = self.client.get(NEWSPAPER_CREATE_URL)
+        self.assertTemplateUsed(
+            response,
+            "newspapers_tracker/newspaper_form.html"
+        )
