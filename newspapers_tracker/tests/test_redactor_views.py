@@ -287,3 +287,13 @@ class RedactorUpdateViewPrivateTests(RedactorPrivate):
             response,
             REDACTOR_LIST_VIEW_URL
         )
+
+
+class RedactorDetailViewPrivateTests(RedactorPrivate):
+    def test_redactor_detail_view_access(self):
+        response = self.client.get(REDACTOR_DETAIL_VIEW_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
+
