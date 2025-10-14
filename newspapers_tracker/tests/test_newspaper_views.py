@@ -165,3 +165,12 @@ class NewspaperListViewPrivateTests(NewspaperPrivate):
             response,
             "newspapers_tracker/newspaper_list.html"
         )
+
+
+class NewspaperCreateViewPrivateTests(NewspaperPrivate):
+    def test_newspaper_create_access(self):
+        response = self.client.get(NEWSPAPER_CREATE_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
