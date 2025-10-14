@@ -82,21 +82,54 @@ class NewspaperPrivate(TestCase):
             username="test_user",
             password="TestPassword123"
         )
-        topic = Topic.objects.create(name="test_topic")
-        newspaper = Newspaper.objects.create(
+        cls.topic = Topic.objects.create(name="test_topic")
+        cls.newspaper = Newspaper.objects.create(
             title="test_newspaper",
-            topic=topic
+            topic=cls.topic
         )
-        newspaper.publishers.add(cls.user)
+        cls.newspaper.publishers.add(cls.user)
 
     def setUp(self):
         self.client.force_login(self.user)
 
 
 class NewspaperListViewPrivateTests(NewspaperPrivate):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        for i in range(6):
+            Newspaper.objects.create(
+                title=f"newspaper_{i}",
+                topic=cls.topic
+            )
+
     def test_newspaper_list_view_access(self):
         response = self.client.get(NEWSPAPER_LIST_URL)
         self.assertEqual(
             response.status_code,
             200
+        )
+
+    def test_newspaper_list_is_paginated(self):
+        response = self.client.get(NEWSPAPER_LIST_URL)
+        self.assertTrue(
+            response.context["is_paginated"],
+            msg="newspaper_list must be paginated"
+        )
+
+    def test_newspaper_list_num_of_newspapers_on_page(self):
+        response = self.client.get(NEWSPAPER_LIST_URL)
+        self.assertEqual(
+            len(response.context["newspaper_list"]),
+            5,
+            msg="newspaper_list must be paginated_by 5"
+        )
+
+    def test_newspaper_list_num_of_instances_on_second_page(self):
+        response = self.client.get(NEWSPAPER_LIST_URL + "?page=2")
+        # Total num of instances = 7, 2 must be on second page when paginated_by = 5
+        self.assertEqual(
+            len(response.context["newspaper_list"]),
+            2,
+            msg="num of instances on second page must be 2 if paginated_by = 5"
         )
