@@ -301,3 +301,10 @@ class NewspaperDeleteViewPrivateTests(NewspaperPrivate):
             len(Newspaper.objects.all()),
             0
         )
+
+    def test_newspaper_delete_view_redirects(self):
+        response = self.client.post(NEWSPAPER_DELETE_URL)
+        self.assertRedirects(
+            response,
+            NEWSPAPER_LIST_URL
+        )
