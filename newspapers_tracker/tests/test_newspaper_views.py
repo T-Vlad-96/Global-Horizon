@@ -280,3 +280,12 @@ class NewspaperUpdateViewPrivateTests(NewspaperPrivate):
             response,
             NEWSPAPER_LIST_URL
         )
+
+
+class NewspaperDeleteViewPrivateTests(NewspaperPrivate):
+    def test_newspaper_delete_view_access(self):
+        response = self.client.get(NEWSPAPER_DELETE_URL)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
