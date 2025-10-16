@@ -289,3 +289,15 @@ class NewspaperDeleteViewPrivateTests(NewspaperPrivate):
             response.status_code,
             200
         )
+
+    def test_newspaper_delete_view_deletes_an_instance(self):
+        self.assertEqual(
+            len(Newspaper.objects.all()),
+            1
+        )
+
+        response = self.client.post(NEWSPAPER_DELETE_URL)
+        self.assertEqual(
+            len(Newspaper.objects.all()),
+            0
+        )
