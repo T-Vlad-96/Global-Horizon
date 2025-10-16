@@ -232,7 +232,34 @@ class NewspaperUpdateViewPrivateTests(NewspaperPrivate):
 
     def test_newspaper_update_view_access(self):
         response = self.client.get(NEWSPAPER_UPDATE_URL)
+        obj = Newspaper.objects.get(id=1)
         self.assertEqual(
             response.status_code,
             200
+        )
+
+    def test_newspaper_update_changes_instance(self):
+        obj = Newspaper.objects.get(id=1)
+        self.assertNotEquals(
+            {
+                "title": obj.title,
+                "topic": obj.topic.id,
+                "content": obj.content,
+                "publishers": [i.id for i in obj.publishers.all()]
+            },
+            self.new_newspaper_data
+        )
+        response = self.client.post(
+            NEWSPAPER_UPDATE_URL,
+            self.new_newspaper_data
+        )
+        obj = Newspaper.objects.get(id=1)
+        self.assertEquals(
+            {
+                "title": obj.title,
+                "topic": obj.topic.id,
+                "content": obj.content,
+                "publishers": [i.id for i in obj.publishers.all()]
+            },
+            self.new_newspaper_data
         )
