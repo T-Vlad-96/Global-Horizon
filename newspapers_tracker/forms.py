@@ -316,20 +316,8 @@ class NewspaperForm(forms.ModelForm):
         )
 
 
-class TopicSearchForm(forms.Form):
-    name = forms.CharField(
-        required=False,
-        label="",
-        max_length=60,
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Search by name"
-            }
-        )
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+class SearchFormMixin(forms.Form):
+    def _helper_setup(self):
         self.helper = FormHelper()
         self.helper.form_method = "GET"
         self.helper.form_class = "w-50"
@@ -354,7 +342,24 @@ class TopicSearchForm(forms.Form):
         )
 
 
-class RedactorSearchForm(forms.Form):
+class TopicSearchForm(SearchFormMixin):
+    name = forms.CharField(
+        required=False,
+        label="",
+        max_length=60,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by name"
+            }
+        )
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        super()._helper_setup()
+
+
+class RedactorSearchForm(SearchFormMixin):
     username = forms.CharField(
         required=False,
         label="",
@@ -368,31 +373,10 @@ class RedactorSearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = "GET"
-        self.helper.form_class = "w-50"
-        self.helper.form_show_labels = False
-        self.helper.layout = Layout(
-            Div(
-                Div(
-                    Field(
-                        "username",
-                        css_class="border border-1 rounded-0 px-2"
-                    )
-                ),
-                Div(
-                    Submit(
-                        name="submit",
-                        value="🔍",
-                        css_class="border border-1 rounded-0"
-                    )
-                ),
-                css_class="container-fluid input-group"
-            ),
-        )
+        super()._helper_setup()
 
 
-class NewspaperSearchForm(forms.Form):
+class NewspaperSearchForm(SearchFormMixin):
     title = forms.CharField(
         required=False,
         label="",
@@ -406,25 +390,4 @@ class NewspaperSearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = "GET"
-        self.helper.form_class = "w-50"
-        self.helper.form_show_labels = False
-        self.helper.layout = Layout(
-            Div(
-                Div(
-                    Field(
-                        "title",
-                        css_class="border border-1 rounded-0 px-2"
-                    )
-                ),
-                Div(
-                    Submit(
-                        "submit",
-                        value="🔍",
-                        css_class="border border-1 rounded-0"
-                    )
-                ),
-                css_class="input-group container-fluid"
-            )
-        )
+        super()._helper_setup()
