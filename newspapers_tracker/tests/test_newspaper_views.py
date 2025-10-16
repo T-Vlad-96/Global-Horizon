@@ -263,3 +263,10 @@ class NewspaperUpdateViewPrivateTests(NewspaperPrivate):
             },
             self.new_newspaper_data
         )
+
+    def test_newspaper_update_view_uses_correct_template(self):
+        response = self.client.get(NEWSPAPER_UPDATE_URL)
+        self.assertTemplateUsed(
+            response,
+            "newspapers_tracker/newspaper_form.html"
+        )
