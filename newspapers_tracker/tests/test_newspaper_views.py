@@ -270,3 +270,13 @@ class NewspaperUpdateViewPrivateTests(NewspaperPrivate):
             response,
             "newspapers_tracker/newspaper_form.html"
         )
+
+    def test_newspaper_update_view_redirects(self):
+        response = self.client.post(
+            NEWSPAPER_UPDATE_URL,
+            self.new_newspaper_data
+        )
+        self.assertRedirects(
+            response,
+            NEWSPAPER_LIST_URL
+        )
