@@ -16,6 +16,7 @@ from newspapers_tracker.views import (
     NewspaperUpdateView,
     NewspaperDetailView,
     NewspaperDeleteView,
+    UserPasswordChangeView
 )
 
 app_name = "newspapers_tracker"
@@ -33,6 +34,7 @@ urlpatterns = [
     path("redactors/update/<int:pk>/", RedactorUpdateView.as_view(), name="redactor-update"),
     path("redactors/<int:pk>/", RedactorDetailView.as_view(), name="redactor-detail"),
     path("redactors/delete/<int:pk>/", RedactorDeleteView.as_view(), name="redactor-delete"),
+    path("user/change_password/<int:pk>/", UserPasswordChangeView.as_view(), name="change-password"),
     # Newspaper routes
     path("newspapers/", NewspaperList.as_view(), name="newspaper-list"),
     path("newspapers/<int:pk>/", NewspaperDetailView.as_view(), name="newspaper-detail"),

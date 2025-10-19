@@ -8,6 +8,15 @@
           <div class="card-body text-center">
             <div class="row">
               <div class="col-sm-12 d-flex justify-content-end">
+                {% if request.user.username == redactor.username %}
+                  <a
+                    href="{% url 'newspapers_tracker:change-password' redactor.id %}"
+                    title="Change password"
+                    class="btn-link fs-3 float-end mx-3"
+                  >
+                    🔓
+                  </a>
+                {% endif %}
                 <a
                   href="{% url 'newspapers_tracker:redactor-delete' pk=redactor.id %}"
                   title="Delete Redactor"

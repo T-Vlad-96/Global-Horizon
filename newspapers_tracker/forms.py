@@ -13,6 +13,7 @@ from crispy_forms.layout import (
 )
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 from .models import Topic, Redactor, Newspaper
 
@@ -186,6 +187,67 @@ class RedactorUpdateForm(forms.ModelForm, RedactorFormCrispyStyleMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         super()._setup_helper()
+
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput)
+    new_password1 = forms.CharField(widget=forms.PasswordInput)
+    new_password2 = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = get_user_model()
+        fields = ["old_password", "new_password1", "new_password2"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "w-50 bg-primary bg-gradient mx-auto"
+        self.helper.field_class = "bg-white text-dark rounded-3 my-3 p-1"
+        self.helper.form_show_labels = False
+        rows = []
+        for name, field in self.fields.items():
+            label_html = (
+                f"<label class='text-white fw-bold'>"
+                f"{name}:"
+                f"</label>"
+            )
+            rows.append(
+                Row(
+                    Column(
+                        Div(
+                            HTML(label_html),
+                            css_class="w-25"
+                        ),
+                        Div(
+                            Field(name, css_class="px-3 fw-bold"),
+                            css_class="w-50 fw-bold"
+                        ),
+                        css_class="d-flex justify-content-center align-items-center gap-3"
+                    )
+                )
+            )
+        self.helper.layout = Layout(
+            *rows,
+            Row(
+                Column(
+                    Div(
+                        Submit(
+                            "submit",
+                            value="Submit",
+                            css_class="btn btn-sm btn-success"
+                        )
+                    ),
+                    Div(
+                        Button(
+                            "cancel",
+                            value="Cancel",
+                            css_class="btn btn-sm btn-secondary"
+                        )
+                    ),
+                    css_class="d-flex justify-content-center align-items-center gap-3"
+                )
+            )
+        )
 
 
 class NewspaperForm(forms.ModelForm):

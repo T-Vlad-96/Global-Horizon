@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordChangeView
 
 from newspapers_tracker.forms import (
     TopicForm,
@@ -15,6 +16,7 @@ from newspapers_tracker.forms import (
     RedactorSearchForm,
     NewspaperSearchForm,
     SingUpForm,
+    UserPasswordChangeForm
 )
 from newspapers_tracker.models import Topic, Newspaper, Redactor
 
@@ -107,6 +109,13 @@ class RedactorUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Redactor
     form_class = RedactorUpdateForm
     success_url = reverse_lazy("newspapers_tracker:redactor-list")
+
+
+class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    model = get_user_model()
+    form_class = UserPasswordChangeForm
+    success_url = reverse_lazy("newspapers_tracker:redactor-list")
+    template_name = "newspapers_tracker/user_password_change.html"
 
 
 class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
