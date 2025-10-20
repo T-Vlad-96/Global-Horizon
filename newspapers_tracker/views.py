@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -45,7 +46,7 @@ class TopicListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
     search_form = TopicSearchForm
 
-    def get_context_data(self, *, object_list = ..., **kwargs):
+    def get_context_data(self, *, object_list=..., **kwargs):
         context = super().get_context_data(**kwargs)
         context["search_form"] = self.search_form(self.request.GET)
         return context
@@ -58,7 +59,6 @@ class TopicListView(LoginRequiredMixin, generic.ListView):
                 name__icontains=search_form.cleaned_data["name"]
             )
         return self.queryset
-
 
 
 class TopicCreateView(LoginRequiredMixin, generic.CreateView):
@@ -84,7 +84,7 @@ class RedactorListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
     search_form = RedactorSearchForm
 
-    def get_context_data(self, *, object_list = ..., **kwargs):
+    def get_context_data(self, *, object_list=..., **kwargs):
         context = super().get_context_data()
         context["search_form"] = self.search_form(self.request.GET)
         return context
@@ -114,8 +114,13 @@ class RedactorUpdateView(LoginRequiredMixin, generic.UpdateView):
 class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     model = get_user_model()
     form_class = UserPasswordChangeForm
-    success_url = reverse_lazy("newspapers_tracker:redactor-list")
     template_name = "newspapers_tracker/user_password_change.html"
+
+    def get_success_url(self):
+        url = reverse_lazy(
+            "newspapers_tracker:redactor-detail", kwargs={"pk": self.request.user.id}
+        )
+        return url
 
 
 class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
@@ -135,8 +140,8 @@ class NewspaperList(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
     search_form = NewspaperSearchForm
 
-    def get_context_data(self, *, object_list = ..., **kwargs):
-        context =super().get_context_data()
+    def get_context_data(self, *, object_list=..., **kwargs):
+        context = super().get_context_data()
         context["search_form"] = self.search_form(self.request.GET)
         return context
 

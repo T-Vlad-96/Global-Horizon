@@ -25,8 +25,12 @@ class Redactor(AbstractUser):
     def __str__(self):
         return self.username
 
+    def get_absolute_url(self):
+        return f"redactors/{self.id}"
+
     class Meta:
         ordering = ("username",)
+
 
 
 class Newspaper(models.Model):
