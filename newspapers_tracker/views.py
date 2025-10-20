@@ -122,6 +122,11 @@ class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
         )
         return url
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Your password has successfully changed!✅")
+        return response
+
 
 class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Redactor
