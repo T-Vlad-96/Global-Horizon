@@ -1,6 +1,6 @@
 {% extends "layouts/base-fullscreen.html" %}
 
-{% block title %} Sign IN {% endblock %} 
+{% block title %} Sign IN {% endblock %}
 
 {% block body_class %} sign-in-basic {% endblock %}
 
@@ -8,8 +8,10 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-  
-  <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');" loading="lazy">
+
+  <div class="page-header align-items-start min-vh-100"
+       style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');"
+       loading="lazy">
     <span class="mask bg-gradient-dark opacity-6"></span>
     <div class="container my-auto">
       <div class="row">
@@ -33,11 +35,9 @@
             </div>
             <div class="card-body">
               <form role="form" method="post" action="" class="text-start">
-
                 {% csrf_token %}
-
                 <div class="input-group input-group-outline mb-3">
-                    {{ form.username }}
+                  {{ form.username }}
                 </div>
                 <div class="input-group input-group-outline mb-3">
                   {{ form.password }}
@@ -46,9 +46,18 @@
                   <input class="form-check-input" type="checkbox" id="rememberMe">
                   <label class="form-check-label mb-0 ms-2" for="rememberMe">Remember me</label>
                 </div>
+
+                {% if form.non_field_errors %}
+                  <ul>
+                    {% for error in form.non_field_errors %}
+                      <li class="alert alert-danger fs-6 p-1 text-white">{{ error }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
                 <div class="text-center">
-                  <button type="submit" name="login" 
-                          class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
+                  <button type="submit" name="login"
+                          class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in
+                  </button>
                 </div>
                 <p class="mt-4 text-sm text-center">
                   Don't have an account?
