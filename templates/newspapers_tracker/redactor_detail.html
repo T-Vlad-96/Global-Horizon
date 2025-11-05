@@ -79,7 +79,10 @@
                         </span>
                         </div>
                         <div class="col-sm-3">
-                          <a href="#" class="fw-bold">
+                          <a
+                            href="{% url 'newspapers_tracker:newspaper-detail' newspaper.id %}"
+                            class="fw-bold"
+                          >
                             {{ newspaper }}
                           </a>
                         </div>
