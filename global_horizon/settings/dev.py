@@ -5,6 +5,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+
+INSTALLED_APPS += ["debug_toolbar"]
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
