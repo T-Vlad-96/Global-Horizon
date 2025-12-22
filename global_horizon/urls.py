@@ -16,6 +16,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.conf import settings
 from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
 
@@ -26,4 +27,7 @@ urlpatterns = [
     path("", include("newspapers_tracker.urls", namespace="newspapers_tracker")),
     path("registration/", include("django.contrib.auth.urls")),
     path("register/", SingUpView.as_view(), name="register")
-] + debug_toolbar_urls()
+]
+
+if settings.DEBUG:
+    urlpatterns += debug_toolbar_urls()
