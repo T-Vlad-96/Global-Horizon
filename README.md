@@ -24,3 +24,7 @@ python3 must be already installed
 ## Reflection
 This project helped me better understand how to develop websites with good UX design. I learned more about Bootstrap and Crispy Forms.
 I consolidated some of my knowledge regarding the back-end, such as Django user authentication system and Django forms.
+
+### user with admin status to check the website functionality
+- **login:** test_user
+- **password:** TestPass1234
