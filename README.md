@@ -25,6 +25,12 @@ python3 must be already installed
 This project helped me better understand how to develop websites with good UX design. I learned more about Bootstrap and Crispy Forms.
 I consolidated some of my knowledge regarding the back-end, such as Django user authentication system and Django forms.
 
+## Links
+
+- Project homepage: https://global-horizon.onrender.com
+- Repository: https://github.com/T-Vlad-96/Global-Horizon
+
+
 ### user with admin status to check the website functionality
 - **login:** test_user
 - **password:** TestPass1234
